@@ -1,1 +1,0 @@
-This folder stores the HTML files that can be run locally.
