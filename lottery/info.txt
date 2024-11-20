@@ -1,0 +1,1 @@
+This is a lottery program that imports user names and other information from an Excel spreadsheet to conduct a lottery, and then displays the lottery results.
