@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽奖程序</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>抽奖程序</h1>
+    <button onclick="importExcel()">导入Excel文件</button>
+    <button onclick="draw()">抽取幸运用户</button>
+    <div id="result"></div>
+
+    <script>
+        let names = [];
+
+        // 导入Excel文件
+        function importExcel() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.xlsx, .xls';
+
+            input.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    // 默认读取第一个工作表
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+
+                    // 提取 `name` 或 `用户名` 字段
+                    names = jsonData.map(row => row.name || row.用户名).filter(Boolean);
+
+                    if (names.length > 0) {
+                        alert('Excel文件导入成功，共加载 ' + names.length + ' 个用户！');
+                    } else {
+                        alert('未找到有效的 `name` 或 `用户名` 字段，请检查Excel文件！');
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+
+            input.click();
+        }
+
+        // 抽取幸运用户
+        function draw() {
+            if (names.length === 0) {
+                alert('请先导入Excel文件！');
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * names.length);
+            const luckyUser = names[randomIndex];
+
+            document.getElementById('result').innerText = '🎉 恭喜幸运用户：' + luckyUser + ' 🎉';
+            alert('🎉 恭喜幸运用户：' + luckyUser + ' 🎉');
+        }
+    </script>
+</body>
+</html>
