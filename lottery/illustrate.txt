@@ -1,3 +1,5 @@
 这是网页版的抽奖功能，需要自行导入已含有用户名的excel文件，excel文件中用户名列中的第一个字段必须是"user"，否则无法正常读取，读取excel文件信息后，点击抽奖按钮后会抽出一位随机幸运儿。
 
-This is the web version of the lottery function. You need to import an Excel file that already contains user names. The first field in the username column in the Excel file must be "user", otherwise it cannot be read normally. After reading the Excel file information, click the lottery button to draw a random lucky winner.
+This is the web version of the lottery function. You need to import an Excel file that already contains user names.
+The first field in the username column in the Excel file must be "user", otherwise it cannot be read normally.
+After reading the Excel file information, click the lottery button to draw a random lucky winner.
