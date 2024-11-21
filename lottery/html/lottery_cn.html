@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +12,14 @@
             text-align: center;
             margin-top: 50px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
             cursor: pointer;
         }
+
         #result {
             margin-top: 20px;
             font-size: 20px;
@@ -24,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1>抽奖程序</h1>
     <button onclick="importExcel()">导入Excel文件</button>
@@ -32,7 +36,7 @@
 
     <script>
         let names = [];
-
+        let animationInterval;
         // 导入Excel文件
         function importExcel() {
             const input = document.createElement('input');
@@ -73,13 +77,29 @@
                 alert('请先导入Excel文件！');
                 return;
             }
+            // 设置动画时间
+            let duration = 3000; // 动画持续时间（毫秒）
+            let interval = 100;  // 每次切换名字的间隔（毫秒）
+            let startTime = Date.now();
+            // 清除之前的动画（如果有）
+            if (animationInterval) clearInterval(animationInterval);
+            // 开始动画
+            animationInterval = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * names.length);
+                const randomName = names[randomIndex];
+                document.getElementById('result').innerText = randomName;
 
-            const randomIndex = Math.floor(Math.random() * names.length);
-            const luckyUser = names[randomIndex];
-
-            document.getElementById('result').innerText = '🎉 恭喜幸运用户：' + luckyUser + ' 🎉';
-            alert('🎉 恭喜幸运用户：' + luckyUser + ' 🎉');
+                // 如果时间到了，停止动画并显示最终结果
+                if (Date.now() - startTime >= duration) {
+                    clearInterval(animationInterval);
+                    const luckyIndex = Math.floor(Math.random() * names.length);
+                    const luckyUser = names[luckyIndex];
+                    document.getElementById('result').innerText = '🎉 恭喜幸运用户：' + luckyUser + ' 🎉';
+                    alert('🎉 恭喜幸运用户：' + luckyUser + ' 🎉');
+                }
+            }, interval);
         }
     </script>
 </body>
+
 </html>
